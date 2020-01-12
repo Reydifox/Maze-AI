@@ -2,7 +2,7 @@
 #include "route.h"
 #include "map.h"
 
-// Parametric constructor
+// Default constructor
 Route::Route(vector_2D start, vector_2D end) {
 	int r_type = rand() % sizeof(route_type);
 	this->start = start;
