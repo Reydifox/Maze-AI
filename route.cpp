@@ -3,26 +3,6 @@
 #include "map.h"
 
 // Default constructor
-/*Route::Route() {
-	switch (rand() % 2) {
-		case 0: {
-			this->start_x = rand() % SCREEN_WIDTH / 2;
-			this->end_x = start_x + rand() % 5;
-
-			int y = rand() % SCREEN_HEIGHT / 2;
-			this->start_y = y;
-			this->end_y = y + 1;
-		}
-		case 1: {
-			int x = rand() % SCREEN_WIDTH / 2;
-			this->start_x = x;
-			this->end_x = x + 1;
-
-			this->start_y = rand() % SCREEN_HEIGHT / 2;
-			this->end_y = start_y + rand() % 5;
-		}
-	}
-}*/
 Route::Route(vector_2D start, vector_2D end) {
 	int r_type = rand() % sizeof(route_type);
 	this->start = start;
