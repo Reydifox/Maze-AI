@@ -38,3 +38,11 @@ void GotoXY(int column, int line)
 	HANDLE output = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleCursorPosition(output, pos);
 }
+
+bool IsCollision(int x, int y)
+{
+	CHAR_INFO ci;
+	COORD xy = { 0, 0 };
+	SMALL_RECT rect = { x, y, x, y };
+	return ReadConsoleOutput(GetStdHandle(STD_OUTPUT_HANDLE), &ci, {1}, xy, &rect) ? true : false;
+}

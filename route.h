@@ -5,6 +5,7 @@
 #define ROUTE_WIDTH		5
 #define ROUTE_HEIGHT	3
 #define ROUTE_MODEL		(char)219
+#define ROUTE_ERASE		' '
 
 enum route_type {
 	line_vertical,
@@ -31,6 +32,13 @@ private:
 
 	void DrawLineHorizontal(const Route &route);
 	void DrawLineVertical(const Route &route);
+	void DrawCrossingUp(const Route &route);
+	void DrawCrossingDown(const Route &route);
+	void DrawCrossing(const Route &route);
+	void DrawTrapRight(const Route &route);
+	void DrawTrapLeft(const Route &route);
+	void DrawTrapUp(const Route &route);
+	void DrawTrapDown(const Route &route);
 
 protected:
 	vector_2D GetLength();

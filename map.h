@@ -7,7 +7,7 @@
 // Macros
 #define CLEAR_MAP()		system("cls")
 
-#define SCREEN_WIDTH	80
+#define SCREEN_WIDTH	85
 #define SCREEN_HEIGHT	24
 #define BORDER_MARGIN	5
 
@@ -30,5 +30,6 @@ public:
 
 // Functions
 void GotoXY(int column, int line);
+bool IsCollision(int x, int y);
 
 #endif

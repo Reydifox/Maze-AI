@@ -2,27 +2,7 @@
 #include "route.h"
 #include "map.h"
 
-// Default constructor
-/*Route::Route() {
-	switch (rand() % 2) {
-		case 0: {
-			this->start_x = rand() % SCREEN_WIDTH / 2;
-			this->end_x = start_x + rand() % 5;
-
-			int y = rand() % SCREEN_HEIGHT / 2;
-			this->start_y = y;
-			this->end_y = y + 1;
-		}
-		case 1: {
-			int x = rand() % SCREEN_WIDTH / 2;
-			this->start_x = x;
-			this->end_x = x + 1;
-
-			this->start_y = rand() % SCREEN_HEIGHT / 2;
-			this->end_y = start_y + rand() % 5;
-		}
-	}
-}*/
+// Parametric constructor
 Route::Route(vector_2D start, vector_2D end) {
 	int r_type = rand() % sizeof(route_type);
 	this->start = start;
@@ -40,9 +20,23 @@ vector_2D Route::GetLength() {
 
 void Route::DrawRoute(const Route &route) {
 	switch (route.type) {
-	case line_horizontal: DrawLineHorizontal(route);
-		break;
-	case line_vertical: DrawLineVertical(route);
+		case line_horizontal: DrawLineHorizontal(route);
+			break;
+		case line_vertical: DrawLineVertical(route);
+			break;
+		case crossing_up: DrawCrossingUp(route);
+			break;
+		case crossing_down: DrawCrossingDown(route);
+			break;
+		case crossing: DrawCrossing(route);
+			break;
+		case trap_right: DrawTrapRight(route);
+			break;
+		case trap_left: DrawTrapLeft(route);
+			break;
+		case trap_down: DrawTrapDown(route);
+			break;
+		case trap_up: DrawTrapUp(route);
 	}
 }
 
@@ -56,12 +50,97 @@ void Route::DrawLineHorizontal(const Route &route) {
 }
 
 void Route::DrawLineVertical(const Route &route) {
-	for (int y = 1; y < ROUTE_HEIGHT; y++) {
+	for (int y = -1; y < ROUTE_HEIGHT/2; y++) {
+		GotoXY(route.start.x, route.start.y + y);
+		std::cout << ROUTE_MODEL;
+		GotoXY(route.start.x + 2, route.start.y + y);
+		std::cout << ROUTE_MODEL;
+	}
+}
+
+void Route::DrawCrossingUp(const Route &route) {
+	for (int x = 0; x < ROUTE_WIDTH; x++) {
+		if (x != round(ROUTE_WIDTH / 2)) {
+			GotoXY(route.start.x + x, route.start.y - 1);
+			std::cout << ROUTE_MODEL;
+		}
+		else if (x == round(ROUTE_WIDTH / 2)) {
+			GotoXY(route.start.x + x, route.start.y - 1);
+			std::cout << ROUTE_ERASE;
+		}
+		GotoXY(route.start.x + x, route.start.y + 1);
+		std::cout << ROUTE_MODEL;
+	}
+}
+
+void Route::DrawCrossingDown(const Route &route) {
+	for (int x = 0; x < ROUTE_WIDTH; x++) {
+		if (x != round(ROUTE_WIDTH / 2)) {
+			GotoXY(route.start.x + x, route.start.y + 1);
+			std::cout << ROUTE_MODEL;
+		}
+		GotoXY(route.start.x + x, route.start.y - 1);
+		std::cout << ROUTE_MODEL;
+	}
+}
+
+void Route::DrawCrossing(const Route &route) {
+	for (int x = 0; x < ROUTE_WIDTH; x++) {
+		if (x != round(ROUTE_WIDTH / 2)) {
+			GotoXY(route.start.x + x, route.start.y - 1);
+			std::cout << ROUTE_MODEL;
+			GotoXY(route.start.x + x, route.start.y + 1);
+			std::cout << ROUTE_MODEL;
+		}
+		else if (x == round(ROUTE_WIDTH / 2)) {
+			GotoXY(route.start.x + x, route.start.y - 1);
+			std::cout << ROUTE_ERASE;
+		}
+	}
+}
+
+void Route::DrawTrapRight(const Route &route) {
+	for (int x = 0; x < ROUTE_WIDTH; x++) {
+		GotoXY(route.start.x + x, route.start.y - 1);
+		std::cout << ROUTE_MODEL;
+		GotoXY(route.start.x + x, route.start.y + 1);
+		std::cout << ROUTE_MODEL;
+	}
+	GotoXY(route.start.x + ROUTE_WIDTH - 1, route.start.y);
+	std::cout << ROUTE_MODEL;
+}
+
+void Route::DrawTrapLeft(const Route &route) {
+	for (int x = 0; x < ROUTE_WIDTH; x++) {
+		GotoXY(route.start.x + x, route.start.y - 1);
+		std::cout << ROUTE_MODEL;
+		GotoXY(route.start.x + x, route.start.y + 1);
+		std::cout << ROUTE_MODEL;
+	}
+	GotoXY(route.start.x, route.start.y);
+	std::cout << ROUTE_MODEL;
+}
+
+void Route::DrawTrapDown(const Route &route) {
+	for (int y = -1; y < ROUTE_HEIGHT; y++) {
 		GotoXY(route.start.x - 1, route.start.y + y);
 		std::cout << ROUTE_MODEL;
 		GotoXY(route.start.x + 1, route.start.y + y);
 		std::cout << ROUTE_MODEL;
 	}
+	GotoXY(route.start.x, route.start.y + ROUTE_HEIGHT - 1);
+	std::cout << ROUTE_MODEL;
+}
+
+void Route::DrawTrapUp(const Route &route) {
+	for (int y = -1; y < ROUTE_HEIGHT; y++) {
+		GotoXY(route.start.x - 1, route.start.y + y);
+		std::cout << ROUTE_MODEL;
+		GotoXY(route.start.x + 1, route.start.y + y);
+		std::cout << ROUTE_MODEL;
+	}
+	GotoXY(route.start.x, route.start.y - 1);
+	std::cout << ROUTE_MODEL;
 }
 
 bool Route::Empty() const {
